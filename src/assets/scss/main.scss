@@ -1,0 +1,20 @@
+@import 'media-queries', 'variables';
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins-Regular';
+}
+
+body { 
+  width: 100vw;
+  height: 100vh;
+  background: #ddd;
+  overflow-x: hidden;
+}
+
+.home {
+  display: flex;
+  justify-content: center;
+}

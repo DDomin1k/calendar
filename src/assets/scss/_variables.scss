@@ -1,0 +1,53 @@
+:root {
+  --calendar-dark-gray: #464646;
+  --calendar-light-gray: #B5BEC6;
+  --calendar-white: #fff;
+  --calendar-picked-item: #F04D23;
+}
+
+$white: #FFFFFF;
+$light-gray: #979797;
+$dark-gray: #393B3B;
+$yellow: #F3D156;
+
+$menu-offset: 30px;
+
+
+
+@font-face {
+  font-family: "Poppins-Regular";
+  src: url('@/assets/fonts/Poppins-Regular.ttf');
+}
+@font-face {
+  font-family: "Poppins-Bold";
+  src: url('@/assets/fonts/Poppins-Bold.ttf');
+}
+
+//KEYFRAMES START
+@keyframes showWithOpacity {
+	0% { opacity: 0; transform: translateY(-100%);}
+	100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes hideWithOpacity {
+	0% { opacity: 1; transform: translateY(0);}
+	100% { opacity: 0; transform: translateY(-100%);}
+}
+//KEYFRAMES END
+
+.stop-scrolling {
+  height: 100vh;
+  overflow: hidden;
+}
+h1 {
+  font-size: 4rem;
+  font-family: 'Poppins-Bold';
+}
+h2 {
+  font-size: 2rem;
+  font-family: 'Poppins-Regular';
+  font-weight: 600;
+}
+h6 {
+  font-size: 1.25rem;
+  font-family: 'Poppins-Regular';
+}
