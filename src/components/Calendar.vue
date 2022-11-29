@@ -15,7 +15,12 @@
       </tr>
       <tbody>
         <tr v-for="(arr, index) in daysAsWeeks" :key="index">
-          <td v-for="item in arr" :key="item" :class="item.class">{{ item.dayShort }}</td>
+          <td v-for="item in arr" :key="item" 
+            :class="[item.class, { 'td-active': chosenDate == item.value }]" 
+            @click="pickedDate(item.value)"
+          >
+          {{ item.dayShort }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -27,10 +32,17 @@ export default {
   data() {
     return {
       date: new Date(),
-      locale: 'en-US'
+      locale: 'pl-PL',
+      chosenDate: null,
     }
   },
   computed: {
+    month() {
+      return this.date.toLocaleDateString(this.locale, { month: 'long' })
+    },
+    year() {
+      return this.date.toLocaleDateString(this.locale, { year: 'numeric' })
+    },
     months() {
       let dates = []
       let date = new Date('2022-01-01')
@@ -48,12 +60,6 @@ export default {
         day = new Date(day.setDate(day.getDate() + 1))
       }
       return days
-    },
-    month() {
-      return this.date.toLocaleDateString(this.locale, { month: 'long' })
-    },
-    year() {
-      return this.date.toLocaleDateString(this.locale, { year: 'numeric' })
     },
     daysInMonth() {
       let firstDay = new Date(this.date.getFullYear(), this.date.getMonth(), 1)
@@ -74,16 +80,16 @@ export default {
       }
       for (let i = firstDay.getDate(); days.length < daysNum; i++) {
         days.push({ 
-          value: firstDay, 
+          value: new Date(firstDay), 
           dayShort: firstDay.getDate(), 
-          class: firstDay < lastDay ? 'calendar-days-primary' : 'calendar-days-secondary' 
+          class: firstDay <= lastDay ? 'calendar-days-primary' : 'calendar-days-secondary' 
         })
         firstDay = new Date(firstDay.setDate(firstDay.getDate() + 1))
       }
       return days
     },
     daysAsWeeks() {
-      let weeks = this.daysInMonth
+      let weeks = this.daysInMonth // [...this.daysInMonth]
       let zmienna = []
       while(weeks.length) {
         zmienna.push(weeks.splice(0,7))
@@ -97,6 +103,10 @@ export default {
     },
     increaseMonth() {
       this.date = new Date(this.date.setMonth(this.date.getMonth() + 1))
+    },
+    pickedDate(date) {
+      this.chosenDate = date
+      console.log(date);
     }
   },
 }
@@ -108,7 +118,7 @@ export default {
     padding: 10px;
     border-radius: 4px;
 
-    box-shadow: 6px 6px 10px 1px rgb(121, 121, 121);
+    box-shadow: 6px 6px 10px 1px rgb(170, 170, 170);
 
     &-header {
       display: flex;
@@ -119,42 +129,75 @@ export default {
       &-arrow {
         width: 20px;
         height: 20px;
+        cursor: pointer;
         img {
           width: inherit;
           height: inherit;
-          filter: invert(80%);
+          filter: invert(90%);
         }
       }
       p {
         font-size: 14px;
-        color: var(--calendar-white)
+        color: var(--calendar-white);
+        &::first-letter {
+          text-transform: capitalize;
+        }
       }
     }
 
     table {
       border-collapse: collapse;
       text-align: center;
-
+ 
       th {
         font-weight: 500;
         font-size: 12px;
-        color: #ffffff;
+        color: var(--calendar-white);
         text-decoration: none;
 
         padding: 12px 6px;
-        width: 40px;
+        cursor: default;
+        &::first-letter {
+          text-transform: capitalize;
+        }
       }
+
       td {
         color: var(--calendar-white);
-        padding: 4px 6px;
+        width: 40px;
+        height: 40px;
         position: relative;
         vertical-align: middle;
-
+        cursor: pointer;
       }
+
       td.calendar-days-secondary {
         color: var(--calendar-light-gray);
       }
 
+      td::before {
+        content: '';
+        display: block;
+        position: absolute;
+
+        width: 34px;
+        height: 34px;
+        left: 3px;
+        top: 3px;
+        border-radius: 50%;
+        background-color: var(--calendar-white);
+
+        opacity: 0;
+        transition: opacity 50ms linear;
+      }
+
+      td:hover::before {
+        opacity: 0.3;
+      }
+
+      .td-active {
+        color: var(--calendar-picked-item);
+      }
     }
   }
 </style>

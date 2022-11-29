@@ -18,9 +18,9 @@ nav {
     font-weight: bold;
     color: #2c3e50;
 
-    &.router-link-exact-active {
-      color: $dark-gray;
-    }
+    // &.router-link-exact-active {
+    //   color: $dark-gray;
+    // }
   }
 }
 </style>
